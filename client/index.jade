@@ -11,30 +11,55 @@ html(lang='en', ng-app='stock-market-Angular')
     link(rel='shortcut icon', href='/favicon.ico')
   body(ng-controller='master')
     .container-fluid
+      h1 Stock Market in Angular
       .row
         .col-xs-12
-          h1 Stock Market in Angular
-          input(name='name', type='text', ng-model='user.name')
-          input(name='balance', type='number', ng-model='user.balance')
-          button.btn.btn-info(ng-click='saveUser()') Initialize
           h3 {{user.name}}
           h3 {{user.balance | currency}}
       .row
-        .col-xs-3
+        form(name='userInfo' nonvalidate)
+        .col-xs-6
+          .form-group
+            label(for='name') User Name
+            input.form-control(name='name', type='text', ng-model='user.name')
+        .col-xs-4
+          .form-group
+            label(for='balance') Balance
+            input.form-control(name='balance', type='number', ng-model='user.balance')
+        .col-xs-2
+          .form-group
+            button.button.btn.btn-info(ng-click='saveUser()') Initialize
+            
+      .row
+        .col-xs-8
           form(name='portName' nonvalidate)
             .form-group
               label(for='portName') Portfolio Name
               input.form-control(name='portName', type='text', ng-model='portfolio.portName')
-              button.btn.btn-success(ng-click='addPortfolio()') Add Portfolio
-              select.form-control(ng-model='portfolio.portName')
+        .col-xs-4
+            .form-group
+              button.button.btn.btn-success(ng-click='addPortfolio()') Add Portfolio
+      .row
+        .col-xs-6
+              label(for='dropdown') Select Portfolio
+              select.form-control(name='dropdown', ng-model='portfolio.portName')
                 option(ng-repeat='portfolio in portfolios') {{portfolio.portName}}
-      //- .row
-      //-   .col-xs-3
-      //-     input(name='stockVal', type='text', ng-model='symbol')
-      //-     button.btn.btn-success(ng-click='getQuote()') Get Quote
-      //-     button.btn.btn-warning(ng-click='buyStock()') Buy Stock
-      //-     
-      //-     
+      .row
+        .col-xs-2
+              label(for='buy') Stock Symbol
+              input.form-control(name='stockVal', type='text', ng-model='symbol')
+        .col-xs-3
+              label(for='shareNum') Number of Shares
+              input.form-control(name='shareNum', type='number',ng-model='shareNum')
+        .col-xs-3
+              button.button.btn.btn-success(ng-click='getQuote()') Get Quote
+        .col-xs-2
+              h3 {{lastPrice | currency}} {{totalPrice | currency}}
+          
+      .row
+        .col-xs-12
+          button.button.btn.btn-danger(name='buy', ng-click='buyStock()') Buy Stock
+
 
     script(src='/vendor/jquery/dist/jquery.min.js')
     script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
