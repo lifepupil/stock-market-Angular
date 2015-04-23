@@ -1,66 +1,82 @@
 doctype html
-html(lang='en', ng-app='stock-market-Angular')
+html(lang='en', ng-app='day-trader')
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Stock Market in Angular
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.css')
+    title Stock Angular
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/paper/bootstrap.min.css')
     link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href=isProd ? '/index.min.css' : '/index.css')
     link(rel='shortcut icon', href='/favicon.ico')
-  body(ng-controller='master')
-    .container-fluid
-      h1 Stock Market in Angular
+  body(ng-controller="master")
+    h1#title Stock Trading App
+    h3#title2 {{user.name}} {{user.balance  | currency}}
+    .container
       .row
-        .col-xs-12
-          h3 {{user.name}}
-          h3 {{user.balance | currency}}
-      .row
-        form(name='userInfo' nonvalidate)
+        .col-xs-6          
+          label(for="name") Name
+          input#name(type="text" placeholder="name" ng-model="user.name")
         .col-xs-6
-          .form-group
-            label(for='name') User Name
-            input.form-control(name='name', type='text', ng-model='user.name')
-        .col-xs-4
-          .form-group
-            label(for='balance') Balance
-            input.form-control(name='balance', type='number', ng-model='user.balance')
-        .col-xs-2
-          .form-group
-            button.button.btn.btn-info(ng-click='saveUser()') Initialize
-            
-      .row
-        .col-xs-8
-          form(name='portName' nonvalidate)
-            .form-group
-              label(for='portName') Portfolio Name
-              input.form-control(name='portName', type='text', ng-model='portfolio.portName')
-        .col-xs-4
-            .form-group
-              button.button.btn.btn-success(ng-click='addPortfolio()') Add Portfolio
+          input#symbol(type="text" placeholder="symbol" ng-model="stock.symbol")
       .row
         .col-xs-6
-              label(for='dropdown') Select Portfolio
-              select.form-control(name='dropdown', ng-model='portfolio.portName')
-                option(ng-repeat='portfolio in portfolios') {{portfolio.portName}}
-      .row
-        .col-xs-2
-              label(for='buy') Stock Symbol
-              input.form-control(name='stockVal', type='text', ng-model='symbol')
-        .col-xs-3
-              label(for='shareNum') Number of Shares
-              input.form-control(name='shareNum', type='number',ng-model='shareNum')
-        .col-xs-3
-              button.button.btn.btn-success(ng-click='getQuote()') Get Quote
-        .col-xs-2
-              h3 {{lastPrice | currency}} {{totalPrice | currency}}
+          label(for="balance") Balance
+          input#balance(type="number" ng-model="user.balance")
+        .col-xs-6
+          input#numShares(type="number" placeholder="number of shares" ng-model="stock.shares")
+          select#pickPort(placeholder="select" ng-model="stock.portfolio")
+            option(value="technology") Technology
+            option(value="medical") Medical
+            option(value="realestate") Real Estate
           
       .row
-        .col-xs-12
-          button.button.btn.btn-danger(name='buy', ng-click='buyStock()') Buy Stock
-
-
+        .col-xs-6
+          button.btn-sm(ng-click="saveUser()") Save User
+        .col-xs-6
+          button.btn-sm(ng-click="buyStock()") Buy Stock
+    .container#portfolios
+      .row
+        .col-md-4
+          h3 Technology
+          h4 Total = {{total('technology') | currency}} 
+          table.table.table-striped
+            thead
+              th Symbol
+              th Value
+              th #
+            tbody
+              tr(ng-repeat="stock in technology")
+                td {{stock.symbol}}
+                td {{stock.price * stock.shares | currency}}
+                td {{stock.shares}}
+        .col-md-4
+          h3 Medical
+          h4 Total = {{total('medical') | currency}}
+          table.table.table-striped
+            thead
+              th Symbol
+              th Value
+              th #
+            tbody
+              tr(ng-repeat="stock in medical")
+                td {{stock.symbol}}
+                td {{stock.price * stock.shares | currency}}
+                td {{stock.shares}}
+        .col-md-4
+          h3 Real Estate
+          h4 Total = {{total('realestate') | currency}}
+          table.table.table-striped
+            thead
+              th Symbol
+              th Position
+              th #
+            tbody
+              tr(ng-repeat="stock in realestate")
+                td {{stock.symbol}}
+                td {{stock.price * stock.shares | currency}}
+                td {{stock.shares}}
+      
     script(src='/vendor/jquery/dist/jquery.min.js')
     script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
     script(src='/vendor/lodash/lodash.min.js')
