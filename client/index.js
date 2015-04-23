@@ -17,6 +17,8 @@ angular.module('stock-market-Angular', ['firebase'])
   var afPortfolios = $firebaseArray(fbPortfolios);
   $scope.portfolios = afPortfolios;
 
+  var stockIndex = 0;
+
   // $scope.portfolios.$loaded().then(function(){
   //   var fbPortfolio = $scope.fbPortfolios.child('portfolio');
   //   var afPortfolio = $firebaseArray(fbPortfolio);
@@ -54,22 +56,36 @@ angular.module('stock-market-Angular', ['firebase'])
   $scope.buyStock = function(){
     if ($scope.portfolio.portName !== undefined && $scope.user.balance >= ($scope.user.balance - $scope.totalPrice)){
       $scope.user.balance -= $scope.totalPrice;
+
       var stock = {
         symbol: $scope.symbol,
         cost: $scope.totalPrice,
         shares: $scope.shareNum
       }
 
-      console.log($scope.portfolios[$scope.portfolio]);
-      $scope.portfolios[0].stock = stock;
-      // $scope.portfolios[0].$scope.symbol = stock;
-      $scope.portfolios.$save(0);
+      // console.log(afPortfolios.$indexFor('medical'));
+
+      // if ($scope.portfolio.portName === 'tech'){
+      //   var stockIndex = $scope.portfolio[0].length -1;
+      //   console.log(stockIndex, $scope.portfolio.portName);
+      //   // need to know the length to determine the index
+      //   $scope.portfolios[0][stockIndex] = stock;
+      //   $scope.portfolios.$save(0);
+      //   stockIndex+=1;
+      // }
+var k = $scope.portfolios[0].$id;
+      console.log('key:',k,'portfolio:',$scope.portfolios.k);
+      // console.log($scope.portfolio);
+      // var thisStock = stock3;
+
+      // $scope.portfolios[0][stockIndex] = stock;
+      // // $scope.portfolio.stock = stock;
       // console.log($scope.portfolios[0]);
-      // $scope.portfolio.stock = stock;
-      // // console.log($scope.portfolio.stock);
-      // // console.log($scope.portfolio);
-      // $scope.portfolios.$save($scope.portfolio);
+      // // // console.log($scope.portfolio.stock);
+      // // // console.log($scope.portfolio);
+      // $scope.portfolios.$save(0);
       // // $scope.user.$save();
+      // stockIndex+=1
     }
 
     // find portfolio children and find way to add to desired one
